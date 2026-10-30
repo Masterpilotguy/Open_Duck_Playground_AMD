@@ -1,0 +1,15 @@
+{
+  "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
+  "python.terminal.activateEnvironment": true,
+  "terminal.integrated.env.linux": {
+    "HSA_ENABLE_DXG_DETECTION": "1",
+    "ROCR_VISIBLE_DEVICES": "0",
+    "HIP_VISIBLE_DEVICES": "0",
+    "UV_NO_SYNC": "1"
+  },
+  "files.watcherExclude": {
+    "**/.venv/**": true,
+    "**/checkpoints/**": true,
+    "**/logs/**": true
+  }
+}

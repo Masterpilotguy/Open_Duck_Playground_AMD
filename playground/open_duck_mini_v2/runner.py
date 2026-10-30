@@ -1,3 +1,4 @@
+import playground.common.jax_compat  # noqa: F401
 """Runs training and evaluation loop for Open Duck Mini V2."""
 
 import argparse

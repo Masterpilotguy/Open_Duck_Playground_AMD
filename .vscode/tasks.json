@@ -1,0 +1,43 @@
+{
+  "version": "2.0.0",
+  "inputs": [
+    {
+      "id": "steps",
+      "type": "promptString",
+      "description": "num_timesteps",
+      "default": "1000000"
+    }
+  ],
+  "tasks": [
+    {
+      "label": "Train (asks for steps)",
+      "type": "shell",
+      "command": "./scripts/train.sh",
+      "options": { "env": { "STEPS": "${input:steps}" } },
+      "group": { "kind": "build", "isDefault": true },
+      "presentation": { "panel": "dedicated", "reveal": "always", "clear": true },
+      "problemMatcher": []
+    },
+    {
+      "label": "Train: full run (300M steps)",
+      "type": "shell",
+      "command": "./scripts/train.sh",
+      "options": { "env": { "STEPS": "300000000" } },
+      "presentation": { "panel": "dedicated", "reveal": "always", "clear": true },
+      "problemMatcher": []
+    },
+    {
+      "label": "Check GPU",
+      "type": "shell",
+      "command": ".venv/bin/python -c \"import jax; print(jax.devices())\"",
+      "options": { "env": { "HSA_ENABLE_DXG_DETECTION": "1", "ROCR_VISIBLE_DEVICES": "0", "HIP_VISIBLE_DEVICES": "0" } },
+      "problemMatcher": []
+    },
+    {
+      "label": "Backup env",
+      "type": "shell",
+      "command": "./scripts/backup-env.sh",
+      "problemMatcher": []
+    }
+  ]
+}

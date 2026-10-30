@@ -8,4 +8,9 @@ mujoco_saved_obs.pkl
 checkpoints/
 .tmp/
 *.onnx
-*.TXT
+*.TXT.venv/
+logs/
+checkpoints/
+.venv/
+logs/
+checkpoints/
