@@ -39,7 +39,7 @@ from playground.common.rewards import (
     cost_stand_still,
     reward_alive,
 )
-from playground.open_duck_mini_v2.custom_rewards import reward_imitation
+from playground.my_duck_mini.custom_rewards import reward_imitation
 
 # if set to false, won't require the reference data to be present and won't compute the reference motions polynoms for nothing
 USE_IMITATION_REWARD = True
@@ -127,7 +127,7 @@ class Joystick(open_duck_mini_v2_base.OpenDuckMiniV2Env):
 
         if USE_IMITATION_REWARD:
             self.PRM = PolyReferenceMotion(
-                "playground/open_duck_mini_v2/data/polynomial_coefficients.pkl"
+                "playground/my_duck_mini/data/polynomial_coefficients.pkl"
             )
 
         # Note: First joint is freejoint.

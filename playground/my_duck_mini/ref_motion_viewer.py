@@ -8,7 +8,7 @@ from etils import epath
 import mujoco.viewer
 
 # Import the reference motion class.
-from playground.open_duck_mini_v2 import base
+from playground.my_duck_mini import base
 
 from playground.common.poly_reference_motion_numpy import PolyReferenceMotion
 
@@ -38,7 +38,7 @@ parser = argparse.ArgumentParser(description="Reference Motion Viewer")
 parser.add_argument(
     "--reference_data",
     type=str,
-    default="playground/go_bdx/data/polynomial_coefficients.pkl",
+    default="playground/my_duck_mini/data/polynomial_coefficients.pkl",
     help="Path to the polynomial coefficients pickle file.",
 )
 parser.add_argument(
@@ -60,7 +60,7 @@ parser.add_argument(
 )
 args = parser.parse_args()
 # model_path = f"playground/go_bdx/xmls/scene_mjx_{args.scene}.xml"
-model_path = f"playground/open_duck_mini_v2/xmls/scene_{args.scene}.xml"
+model_path = f"playground/my_duck_mini/xmls/scene_{args.scene}.xml"
 
 command = args.command
 

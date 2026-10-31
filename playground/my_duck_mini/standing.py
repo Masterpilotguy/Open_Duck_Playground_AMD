@@ -125,7 +125,7 @@ class Standing(open_duck_mini_v2_base.OpenDuckMiniV2Env):
 
         if USE_IMITATION_REWARD:
             self.PRM = PolyReferenceMotion(
-                "playground/open_duck_mini_v2/data/polynomial_coefficients.pkl"
+                "playground/my_duck_mini/data/polynomial_coefficients.pkl"
             )
 
         # Note: First joint is freejoint.

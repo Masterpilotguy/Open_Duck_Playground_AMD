@@ -1,7 +1,7 @@
 import mujoco
 import numpy as np
 from etils import epath
-from playground.open_duck_mini_v2 import base
+from playground.my_duck_mini import base
 
 
 class MJInferBase:

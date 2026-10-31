@@ -9,7 +9,7 @@ from playground.common.onnx_infer import OnnxInfer
 from playground.common.poly_reference_motion_numpy import PolyReferenceMotion
 from playground.common.utils import LowPassActionFilter
 
-from playground.open_duck_mini_v2.mujoco_infer_base import MJInferBase
+from playground.my_duck_mini.mujoco_infer_base import MJInferBase
 
 USE_MOTOR_SPEED_LIMITS = True
 
@@ -249,12 +249,12 @@ if __name__ == "__main__":
     parser.add_argument(
         "--reference_data",
         type=str,
-        default="playground/open_duck_mini_v2/data/polynomial_coefficients.pkl",
+        default="playground/my_duck_mini/data/polynomial_coefficients.pkl",
     )
     parser.add_argument(
         "--model_path",
         type=str,
-        default="playground/open_duck_mini_v2/xmls/scene_flat_terrain.xml",
+        default="playground/my_duck_mini/xmls/scene_flat_terrain.xml",
     )
     parser.add_argument("--standing", action="store_true", default=False)
 

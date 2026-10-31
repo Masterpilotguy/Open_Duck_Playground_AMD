@@ -4,7 +4,7 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 
 PY=".venv/bin/python"
-SCRIPT="${SCRIPT:-playground/open_duck_mini_v2/runner.py}"
+SCRIPT="${SCRIPT:-playground/my_duck_mini/runner.py}"
 TASK="${TASK:-flat_terrain_backlash}"
 STEPS="${STEPS:-1000000}"
 
