@@ -66,7 +66,7 @@ def export_onnx(
                 inputs = inputs[0]
             if self.mean is not None and self.std is not None:
                 print(self.mean.shape, self.std.shape)
-                inputs = (inputs - self.mean) / self.std
+                inputs = (inputs - self.mean) / tf.maximum(self.std, 1e-6)
             logits = self.mlp_block(inputs)
             loc, _ = tf.split(logits, 2, axis=-1)
             return tf.tanh(loc)

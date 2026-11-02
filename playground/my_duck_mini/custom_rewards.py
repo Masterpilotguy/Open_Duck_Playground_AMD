@@ -1,6 +1,9 @@
 import jax
 import jax.numpy as jp
 
+def safe_norm(x: jax.Array, axis: int = -1, keepdims: bool = False, eps: float = 1e-7) -> jax.Array:
+    return jp.sqrt(jp.sum(jp.square(x), axis=axis, keepdims=keepdims) + eps)
+
 def reward_imitation(
     base_qpos: jax.Array,
     base_qvel: jax.Array,
@@ -15,7 +18,7 @@ def reward_imitation(
         return jp.nan_to_num(0.0)
 
     # TODO don't reward for moving when the command is zero.
-    cmd_norm = jp.linalg.norm(cmd[:3])
+    cmd_norm = safe_norm(cmd[:3])
 
     w_torso_pos = 1.0
     w_torso_orientation = 1.0
@@ -61,11 +64,11 @@ def reward_imitation(
     ref_base_orientation_quat = reference_frame[
         root_quat_slice_start:root_quat_slice_end
     ]
-    ref_base_orientation_quat = ref_base_orientation_quat / jp.linalg.norm(
+    ref_base_orientation_quat = ref_base_orientation_quat / safe_norm(
         ref_base_orientation_quat
     )  # normalize the quat
     base_orientation = base_qpos[3:7]
-    base_orientation = base_orientation / jp.linalg.norm(
+    base_orientation = base_orientation / safe_norm(
         base_orientation
     )  # normalize the quat
 
@@ -145,5 +148,6 @@ def reward_imitation(
         # + torso_orientation_rew
     )
 
-    reward *= cmd_norm > 0.01  # No reward for zero commands.
-    return jp.nan_to_num(reward)
+    reward = jp.nan_to_num(reward)
+    reward = jp.where(cmd_norm > 0.01, reward, 0.0)
+    return reward

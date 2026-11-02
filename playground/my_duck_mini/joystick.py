@@ -431,7 +431,7 @@ class Joystick(open_duck_mini_v2_base.OpenDuckMiniV2Env):
         first_contact = (state.info["feet_air_time"] > 0.0) * contact_filt
         state.info["feet_air_time"] += self.dt
         p_f = data.site_xpos[self._feet_site_id]
-        p_fz = p_f[..., -1]
+        p_fz = jp.nan_to_num(p_f[..., -1], nan=0.0)
         state.info["swing_peak"] = jp.maximum(state.info["swing_peak"], p_fz)
 
         obs = self._get_obs(data, state.info, contact)
@@ -445,14 +445,38 @@ class Joystick(open_duck_mini_v2_base.OpenDuckMiniV2Env):
             k: v * self._config.reward_config.scales[k] for k, v in rewards.items()
         }
         reward = jp.clip(sum(rewards.values()) * self.dt, 0.0, 10000.0)
+        reward = jp.nan_to_num(reward, nan=0.0)
         # jax.debug.print('STEP REWARD: {}',reward)
         state.info["push"] = push
         state.info["step"] += 1
         state.info["push_step"] += 1
-        state.info["last_last_last_act"] = state.info["last_last_act"]
-        state.info["last_last_act"] = state.info["last_act"]
-        state.info["last_act"] = action  # was
-        # state.info["last_act"] = motor_targets  # became
+
+        done_bool = done.astype(bool)
+        state.info["last_last_last_act"] = jp.where(
+            done_bool, jp.zeros_like(state.info["last_last_last_act"]), state.info["last_last_act"]
+        )
+        state.info["last_last_act"] = jp.where(
+            done_bool, jp.zeros_like(state.info["last_last_act"]), state.info["last_act"]
+        )
+        state.info["last_act"] = jp.where(
+            done_bool, jp.zeros_like(state.info["last_act"]), action
+        )
+        state.info["motor_targets"] = jp.where(
+            done_bool, self._default_actuator, motor_targets
+        )
+        state.info["action_history"] = jp.where(
+            done_bool, jp.zeros_like(state.info["action_history"]), action_history
+        )
+        state.info["imu_history"] = jp.where(
+            done_bool, jp.zeros_like(state.info["imu_history"]), state.info["imu_history"]
+        )
+        if USE_IMITATION_REWARD:
+            state.info["imitation_i"] = jp.where(
+                done_bool, 0, state.info["imitation_i"]
+            )
+            state.info["imitation_phase"] = jp.where(
+                done_bool, jp.zeros(2), state.info["imitation_phase"]
+            )
         state.info["rng"], cmd_rng = jax.random.split(state.info["rng"])
         state.info["command"] = jp.where(
             state.info["step"] > 500,
@@ -460,21 +484,30 @@ class Joystick(open_duck_mini_v2_base.OpenDuckMiniV2Env):
             state.info["command"],
         )
         state.info["step"] = jp.where(
-            done | (state.info["step"] > 500),
+            done_bool | (state.info["step"] > 500),
             0,
             state.info["step"],
         )
-        state.info["feet_air_time"] *= ~contact
-        state.info["last_contact"] = contact
-        state.info["swing_peak"] *= ~contact
+        state.info["feet_air_time"] = jp.where(
+            done_bool, jp.zeros_like(state.info["feet_air_time"]), state.info["feet_air_time"] * ~contact
+        )
+        state.info["last_contact"] = jp.where(
+            done_bool, jp.zeros_like(contact), contact
+        )
+        state.info["swing_peak"] = jp.where(
+            done_bool, jp.zeros_like(state.info["swing_peak"]), state.info["swing_peak"] * ~contact
+        )
         for k, v in rewards.items():
             rew_scale = self._config.reward_config.scales[k]
             if rew_scale != 0:
+                v_clean = jp.nan_to_num(v, nan=0.0)
                 if rew_scale > 0:
-                    state.metrics[f"reward/{k}"] = v
+                    state.metrics[f"reward/{k}"] = v_clean
                 else:
-                    state.metrics[f"cost/{k}"] = -v
-        state.metrics["swing_peak"] = jp.mean(state.info["swing_peak"])
+                    state.metrics[f"cost/{k}"] = -v_clean
+        state.metrics["swing_peak"] = jp.nan_to_num(
+            jp.mean(state.info["swing_peak"]), nan=0.0
+        )
 
         done = done.astype(reward.dtype)
         state = state.replace(data=data, obs=obs, reward=reward, done=done)
@@ -615,8 +648,8 @@ class Joystick(open_duck_mini_v2_base.OpenDuckMiniV2Env):
         )
 
         return {
-            "state": state,
-            "privileged_state": privileged_state,
+            "state": jp.nan_to_num(state),
+            "privileged_state": jp.nan_to_num(privileged_state),
         }
 
     def _get_reward(

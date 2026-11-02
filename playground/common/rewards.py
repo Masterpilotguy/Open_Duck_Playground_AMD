@@ -7,6 +7,10 @@ import jax
 import jax.numpy as jp
 
 
+def safe_norm(x: jax.Array, axis: int = -1, keepdims: bool = False, eps: float = 1e-7) -> jax.Array:
+    return jp.sqrt(jp.sum(jp.square(x), axis=axis, keepdims=keepdims) + eps)
+
+
 # Tracking rewards.
 def reward_tracking_lin_vel(
     commands: jax.Array,
@@ -98,7 +102,7 @@ def cost_stand_still(
     ignore_head: bool = False,
 ) -> jax.Array:
     # TODO no hard coded slices
-    cmd_norm = jp.linalg.norm(commands[:3])
+    cmd_norm = safe_norm(commands[:3])
     if not ignore_head:
         pose_cost = jp.sum(jp.abs(qpos - default_pose))
         vel_cost = jp.sum(jp.abs(qvel))
@@ -114,7 +118,8 @@ def cost_stand_still(
         )
         vel_cost = jp.sum(jp.abs(left_leg_vel)) + jp.sum(jp.abs(right_leg_vel))
 
-    return jp.nan_to_num(pose_cost + vel_cost) * (cmd_norm < 0.01)
+    cost = jp.nan_to_num(pose_cost + vel_cost)
+    return jp.where(cmd_norm < 0.01, cost, 0.0)
 
 
 def cost_termination(done: jax.Array) -> jax.Array:
@@ -133,7 +138,7 @@ def cost_head_pos(
     joints_qvel: jax.Array,
     cmd: jax.Array,
 ) -> jax.Array:
-    move_cmd_norm = jp.linalg.norm(cmd[:3])
+    move_cmd_norm = safe_norm(cmd[:3])
     head_cmd = cmd[3:]
     head_pos = joints_qpos[5:9]
     # head_vel = joints_qvel[5:9]
@@ -144,7 +149,8 @@ def cost_head_pos(
 
     # head_vel_error = jp.sum(jp.square(head_vel - target_head_qvel))
 
-    return jp.nan_to_num(head_pos_error) * (move_cmd_norm > 0.01)
+    cost = jp.nan_to_num(head_pos_error)
+    return jp.where(move_cmd_norm > 0.01, cost, 0.0)
     # return jp.nan_to_num(head_pos_error + head_vel_error)
 
 
@@ -179,7 +185,7 @@ def cost_pose(
 # FIXME
 def cost_feet_slip(contact: jax.Array, global_linvel: jax.Array) -> jax.Array:
     body_vel = global_linvel[:2]
-    reward = jp.sum(jp.linalg.norm(body_vel, axis=-1) * contact)
+    reward = jp.sum(safe_norm(body_vel, axis=-1) * contact)
     return jp.nan_to_num(reward)
 
 
@@ -216,12 +222,12 @@ def reward_feet_air_time(
     threshold_min: float = 0.1,  # 0.2
     threshold_max: float = 0.5,
 ) -> jax.Array:
-    cmd_norm = jp.linalg.norm(commands[:3])
+    cmd_norm = safe_norm(commands[:3])
     air_time = (air_time - threshold_min) * first_contact
     air_time = jp.clip(air_time, max=threshold_max - threshold_min)
     reward = jp.sum(air_time)
-    reward *= cmd_norm > 0.01  # No reward for zero commands.
-    return jp.nan_to_num(reward)
+    reward = jp.nan_to_num(reward)
+    return jp.where(cmd_norm > 0.01, reward, 0.0)
 
 
 # FIXME
