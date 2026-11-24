@@ -1,0 +1,18 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"path": "../../Open_Duck_Mini_Runtime"
+		}
+	],
+	"settings": {
+		"terminal.integrated.env.linux": {
+			"HSA_ENABLE_DXG_DETECTION": "1",
+			"ROCR_VISIBLE_DEVICES": "0",
+			"HIP_VISIBLE_DEVICES": "0",
+			"UV_NO_SYNC": "1"
+		}
+	}
+}

@@ -1,0 +1,13 @@
+{
+    "configuration": "default",
+    "documentId": "288e597dd94ad4b529573784",
+    "documentMicroversion": "f6d7b33596847a773adc84e1",
+    "elementId": "954f79ee78b0da8fd3c7a21f",
+    "fullConfiguration": "default",
+    "id": "Mg7gXWiWLFdTkX/WZ",
+    "isStandardContent": false,
+    "name": "left_roll_to_pitch <1>",
+    "partId": "RRFD",
+    "suppressed": false,
+    "type": "Part"
+}

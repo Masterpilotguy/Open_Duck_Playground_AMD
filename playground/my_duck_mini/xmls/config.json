@@ -1,13 +1,10 @@
 {
-    // NEED TO WRAP all in a body named "base" and add site 
-    // <site name="imu" pos="-0.08 -0.0 0.05"/>
-    // and comment the default kp frictionloss etc
-    "documentId": "64074dfcfa379b37d8a47762",
-    "outputFormat": "mujoco",
-    "assemblyName": "Open_Duck_Mini_v2",
-    "robot_name": "open_duck_mini_v2",
-    "output_filename": "open_duck_mini_v2",
-    // Simplify STL meshes (default: false)
+  "url": "https://cad.onshape.com/documents/288e597dd94ad4b529573784/w/d7ae896b0f44a7e84b903bef/e/44b8d57db0f775a15a9f95ac",
+  "output_format": "mujoco",
+  "assemblyName": "Open_Duck_Mini_v2",
+  "robot_name": "open_duck_mini_v2",
+  "output_filename": "open_duck_mini_v2",
+  // Simplify STL meshes (default: false)
     "simplify_stls": true,
     // Maximum size of the STL files in MB (default: 3)
     "max_stl_size": 0.005,

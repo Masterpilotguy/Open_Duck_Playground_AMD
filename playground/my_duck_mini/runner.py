@@ -41,8 +41,7 @@ def main() -> None:
         default="checkpoints",
         help="Where to save the checkpoints",
     )
-    # parser.add_argument("--num_timesteps", type=int, default=300000000)
-    parser.add_argument("--num_timesteps", type=int, default=150000000)
+    parser.add_argument("--num_timesteps", type=int, default=300000000)
     parser.add_argument(
         "--num_evals",
         type=int,
@@ -56,6 +55,18 @@ def main() -> None:
         type=str,
         default=None,
         help="Resume training from this checkpoint",
+    )
+    parser.add_argument(
+        "--learning_rate",
+        type=float,
+        default=0.0003,
+        help="PPO learning rate (default: 0.0003)",
+    )
+    parser.add_argument(
+        "--entropy_cost",
+        type=float,
+        default=0.005,
+        help="PPO entropy cost (default: 0.005)",
     )
     # parser.add_argument(
     #     "--debug", action="store_true", help="Run in debug mode with minimal parameters"

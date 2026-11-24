@@ -1,0 +1,494 @@
+<?xml version="1.0" ?>
+<!-- Generated using onshape-to-robot -->
+<!-- Onshape https://cad.onshape.com/documents/288e597dd94ad4b529573784/w/d7ae896b0f44a7e84b903bef/e/44b8d57db0f775a15a9f95ac -->
+<mujoco model="open_duck_mini_v2">
+  <compiler angle="radian" meshdir="assets" autolimits="true"/>
+  <default>
+    <default class="open_duck_mini_v2">
+      <joint frictionloss="0.1" armature="0.005"/>
+      <position kp="50" dampratio="1"/>
+      <default class="visual">
+        <geom type="mesh" contype="0" conaffinity="0" group="2"/>
+      </default>
+      <default class="collision">
+        <geom group="3"/>
+      </default>
+    </default>
+  </default>
+  <!-- Additional sensors.xml -->
+  <sensor>
+    <gyro site="imu" name="gyro"/>
+    <velocimeter site="imu" name="local_linvel"/>
+    <accelerometer site="imu" name="accelerometer"/>
+    <framezaxis objtype="site" objname="imu" name="upvector"/>
+    <framexaxis objtype="site" objname="imu" name="forwardvector"/>
+    <framelinvel objtype="site" objname="imu" name="global_linvel"/>
+    <frameangvel objtype="site" objname="imu" name="global_angvel"/>
+    <framepos objtype="site" objname="imu" name="position"/>
+    <framequat objtype="site" objname="imu" name="orientation"/>
+    <framelinvel objtype="site" objname="right_foot" name="right_foot_global_linvel"/>
+    <framelinvel objtype="site" objname="left_foot" name="left_foot_global_linvel"/>
+    <framexaxis objtype="site" objname="left_foot" name="left_foot_upvector"/>
+    <framexaxis objtype="site" objname="right_foot" name="right_foot_upvector"/>
+    <framepos objtype="site" objname="left_foot" name="left_foot_pos"/>
+    <framepos objtype="site" objname="right_foot" name="right_foot_pos"/>
+  </sensor>
+  <!-- Additional joints_properties.xml -->
+  <default>
+    <default class="sts3215">
+      <geom contype="0" conaffinity="0"/>
+      <joint damping="0.60" frictionloss="0.052" armature="0.028"/>
+      <position kp="17.8" kv="0.0" forcerange="-3.35 3.35"/>
+    </default>
+    <default class="backlash">
+      <!-- +/- 0.5° of backlash -->
+      <joint damping="0.01" frictionloss="0" armature="0.01" limited="true" range="-0.008726646259971648 0.008726646259971648"/>
+    </default>
+  </default>
+  <worldbody>
+    <!-- Link trunk_assembly -->
+    <body name="trunk_assembly" pos="0 0 0" quat="1 0 0 0" childclass="open_duck_mini_v2">
+      <freejoint name="trunk_assembly_freejoint"/>
+      <inertial pos="-0.0327443 -0.00237789 0.0485699" mass="0.927277" fullinertia="0.00257649 0.0046355 0.00355169 -3.62443e-06 0.000241307 -1.87035e-06"/>
+      <!-- Part mini_bdx_covers__e_stop_panel -->
+      <geom type="mesh" class="visual" pos="2.517e-09 -0.0025 0.00799996" quat="1 -0 0 0" mesh="mini_bdx_covers__e_stop_panel" material="mini_bdx_covers__e_stop_panel_material"/>
+      <!-- Part mini_bdx_covers__front_cover -->
+      <geom type="mesh" class="visual" pos="2.17245e-05 -0.002157 0.00797825" quat="1 -0.000354256 2.24373e-05 4e-12" mesh="mini_bdx_covers__front_cover" material="mini_bdx_covers__front_cover_material"/>
+      <!-- Part mini_bdx_covers__front_greeble -->
+      <geom type="mesh" class="visual" pos="0.00226331 -0.00216893 0.00777819" quat="1 -0.000354256 2.24373e-05 4e-12" mesh="mini_bdx_covers__front_greeble" material="mini_bdx_covers__front_greeble_material"/>
+      <!-- Part mini_bdx_covers__front_panel_v4 -->
+      <geom type="mesh" class="visual" pos="-0 -0.0025 0.00799996" quat="1 -4.64e-10 -0 -0" mesh="mini_bdx_covers__front_panel_v4" material="mini_bdx_covers__front_panel_v4_material"/>
+      <!-- Part mini_bdx_covers__back_panel -->
+      <geom type="mesh" class="visual" pos="-0 -0.0025 0.00799996" quat="1 -0 0 -0" mesh="mini_bdx_covers__back_panel" material="mini_bdx_covers__back_panel_material"/>
+      <!-- Part mini_bdx_covers__e_stop_adapter_plate -->
+      <geom type="mesh" class="visual" pos="2.517e-09 -0.0025 0.00799996" quat="1 0 -0 -0" mesh="mini_bdx_covers__e_stop_adapter_plate" material="mini_bdx_covers__e_stop_adapter_plate_material"/>
+      <!-- Part power_switch -->
+      <!-- Part rpi_front_mount__rpi_and_5v_reg_mount -->
+      <geom type="mesh" class="visual" pos="-0.002 -0.0025 0.008" quat="1 -0 -0 -0" mesh="rpi_front_mount__rpi_and_5v_reg_mount" material="rpi_front_mount__rpi_and_5v_reg_mount_material"/>
+      <!-- Part bno055 -->
+      <!-- Part roll_bearing -->
+      <!-- Part mini_bdx_covers__trunk_top_back -->
+      <geom type="mesh" class="visual" pos="5e-05 -0.0025 0.00795" quat="1 -0 0 -0" mesh="mini_bdx_covers__trunk_top_back" material="mini_bdx_covers__trunk_top_back_material"/>
+      <!-- Part mini_bdx_covers__trunk_bottom -->
+      <geom type="mesh" class="visual" pos="0 -0.0025 0.008" quat="1 0 0 0" mesh="mini_bdx_covers__trunk_bottom" material="mini_bdx_covers__trunk_bottom_material"/>
+      <!-- Part mini_bdx_covers__trunk_top_front -->
+      <geom type="mesh" class="visual" pos="5e-05 -0.0025 0.00795" quat="1 0 -0 0" mesh="mini_bdx_covers__trunk_top_front" material="mini_bdx_covers__trunk_top_front_material"/>
+      <!-- Part rpi_front_mount__rpi_zero_bridge_bottom -->
+      <geom type="mesh" class="visual" pos="0.001 -0.0025 0.008" quat="1 -0 0 0" mesh="rpi_front_mount__rpi_zero_bridge_bottom" material="rpi_front_mount__rpi_zero_bridge_bottom_material"/>
+      <!-- Part board -->
+      <!-- Part ruthex_rx_m3_5_7_1__körper1 -->
+      <geom type="mesh" class="visual" pos="-0.05906 -0.0015 0.088875" quat="0 -0 0 -1" mesh="ruthex_rx_m3_5_7_1__körper1" material="ruthex_rx_m3_5_7_1__körper1_material"/>
+      <!-- Part mini_bdx_covers__top_body_support -->
+      <geom type="mesh" class="visual" pos="5e-05 -0.0025 0.00795" quat="1 -0 0 -0" mesh="mini_bdx_covers__top_body_support" material="mini_bdx_covers__top_body_support_material"/>
+      <!-- Part raspberrypizerow -->
+      <!-- Part rpi_front_mount__rpi_zero_bridge_top -->
+      <geom type="mesh" class="visual" pos="0.001 -0.0025 0.008" quat="1 -0 0 0" mesh="rpi_front_mount__rpi_zero_bridge_top" material="rpi_front_mount__rpi_zero_bridge_top_material"/>
+      <!-- Part ruthex_rx_m3_5_7_1__körper1_2 -->
+      <geom type="mesh" class="visual" pos="-0.05906 -0.0215 0.088875" quat="0 0 0 1" mesh="ruthex_rx_m3_5_7_1__körper1" material="ruthex_rx_m3_5_7_1__körper1_material"/>
+      <!-- Part roll_bearing_2 -->
+      <!-- Part wj_wk00_0123middlecase_56 -->
+      <!-- Part drive_palonier -->
+      <!-- Part wj_wk00_0124bottomcase_45 -->
+      <!-- Part wj_wk00_0122topcabinetcase_95 -->
+      <!-- Part passive_palonier -->
+      <!-- Part wj_wk00_0123middlecase_56_2 -->
+      <!-- Part drive_palonier_2 -->
+      <!-- Part wj_wk00_0124bottomcase_45_2 -->
+      <!-- Part wj_wk00_0122topcabinetcase_95_2 -->
+      <!-- Part passive_palonier_2 -->
+      <!-- Part wj_wk00_0123middlecase_56_3 -->
+      <!-- Part drive_palonier_3 -->
+      <!-- Part wj_wk00_0124bottomcase_45_3 -->
+      <!-- Part wj_wk00_0122topcabinetcase_95_3 -->
+      <!-- Part passive_palonier_3 -->
+      <!-- Frame trunk -->
+      <site group="3" name="trunk" pos="-0.0239991 -0.00249835 0.0962409" quat="1 0 -0 0"/>
+      <!-- Frame imu -->
+      <site group="3" name="imu" pos="-0.08687 -0.00329 0.0502409" quat="1 -0 0 0"/>
+      <!-- Link hip_roll_assembly -->
+      <body name="hip_roll_assembly" pos="-0.01895 0.0325 0.0538909" quat="1 -0 -0 0">
+        <!-- Joint from trunk_assembly to hip_roll_assembly -->
+        <joint axis="0 0 1" name="left_hip_yaw" type="hinge" range="-0.5235987755985955 0.5235987755980022" class="sts3215"/>
+        <inertial pos="0.000795081 -5.46541e-06 -0.03306" mass="0.06648" fullinertia="2.44411e-05 2.81818e-05 1.42687e-05 2.357e-09 -3.81059e-07 -7.5e-09"/>
+        <!-- Part roll_motor_bottom -->
+        <geom type="mesh" class="visual" pos="-0 -0.035 0.01905" quat="1 -0 0 -0" mesh="roll_motor_bottom" material="roll_motor_bottom_material"/>
+        <!-- Part roll_motor_top -->
+        <geom type="mesh" class="visual" pos="-0 -0.035 0.01905" quat="1 0 0 0" mesh="roll_motor_top" material="roll_motor_top_material"/>
+        <!-- Part wj_wk00_0123middlecase_56_4 -->
+        <!-- Part drive_palonier_4 -->
+        <!-- Part wj_wk00_0124bottomcase_45_4 -->
+        <!-- Part wj_wk00_0122topcabinetcase_95_4 -->
+        <!-- Part passive_palonier_4 -->
+        <!-- Link left_roll_to_pitch_assembly -->
+        <body name="left_roll_to_pitch_assembly" pos="0.01905 0 -0.046015" quat="0.5 -0.5 -0.5 0.5">
+          <!-- Joint from hip_roll_assembly to left_roll_to_pitch_assembly -->
+          <joint axis="0 0 1" name="left_hip_roll" type="hinge" range="-0.4363323129985602 0.4363323129986046" class="sts3215"/>
+          <inertial pos="0.0503147 -0.000404018 0.0201805" mass="0.0758098" fullinertia="2.58826e-05 4.38314e-05 2.99703e-05 1.36069e-07 -1.71388e-06 -9.7813e-08"/>
+          <!-- Part mini_bdx_covers__hip_cable_holder -->
+          <geom type="mesh" class="visual" pos="-0.035 -7.40612e-05 5e-05" quat="0.5 0.5 0.5 -0.5" mesh="mini_bdx_covers__hip_cable_holder" material="mini_bdx_covers__hip_cable_holder_material"/>
+          <!-- Part left_roll_to_pitch -->
+          <geom type="mesh" class="visual" pos="-0.035 -0.065 0.01905" quat="0.5 0.5 0.5 -0.5" mesh="left_roll_to_pitch" material="left_roll_to_pitch_material"/>
+          <!-- Part wj_wk00_0123middlecase_56_5 -->
+          <!-- Part drive_palonier_5 -->
+          <!-- Part wj_wk00_0124bottomcase_45_5 -->
+          <!-- Part wj_wk00_0122topcabinetcase_95_5 -->
+          <!-- Part passive_palonier_5 -->
+          <!-- Link knee_and_ankle_assembly -->
+          <body name="knee_and_ankle_assembly" pos="0.07415 -0 0.03511" quat="0 -0.707107 -0 0.707107">
+            <!-- Joint from left_roll_to_pitch_assembly to knee_and_ankle_assembly -->
+            <joint axis="0 0 1" name="left_hip_pitch" type="hinge" range="-1.2217304763960013 0.5235987755983281" class="sts3215"/>
+            <inertial pos="0.00295807 -0.0440374 0.0089452" mass="0.119965" fullinertia="0.000189621 7.26351e-05 0.000194393 -1.87584e-05 4.75255e-06 1.67789e-05"/>
+            <!-- Part mini_bdx_covers__left_leg_cover -->
+            <geom type="mesh" class="visual" pos="0.03506 7.40612e-05 0.10915" quat="0.707107 -0.707107 -0 -0" mesh="mini_bdx_covers__left_leg_cover" material="mini_bdx_covers__left_leg_cover_material"/>
+            <!-- Part mini_bdx_covers__left_upper_cable_guide -->
+            <geom type="mesh" class="visual" pos="0.03506 7.40612e-05 0.109134" quat="0.707107 -0.707107 -0 -0" mesh="mini_bdx_covers__left_upper_cable_guide" material="mini_bdx_covers__left_upper_cable_guide_material"/>
+            <!-- Part mini_bdx_covers__left_lower_cable_guide -->
+            <geom type="mesh" class="visual" pos="0.03506 7.40612e-05 0.10915" quat="0.707107 -0.707107 -0 -0" mesh="mini_bdx_covers__left_lower_cable_guide" material="mini_bdx_covers__left_lower_cable_guide_material"/>
+            <!-- Part leg_spacer -->
+            <geom type="mesh" class="visual" pos="0.01606 0.14365 0.10925" quat="0.707107 -0.707107 -0 -0" mesh="leg_spacer" material="leg_spacer_material"/>
+            <!-- Part left_knee_to_ankle_right_sheet -->
+            <geom type="mesh" class="visual" pos="0.01606 0.14365 0.10915" quat="0.707107 -0.707107 -0 -0" mesh="left_knee_to_ankle_right_sheet" material="left_knee_to_ankle_right_sheet_material"/>
+            <!-- Part left_knee_to_ankle_left_sheet -->
+            <geom type="mesh" class="visual" pos="0.01606 0.14365 0.10915" quat="0.707107 -0.707107 -0 -0" mesh="left_knee_to_ankle_left_sheet" material="left_knee_to_ankle_left_sheet_material"/>
+            <!-- Part wj_wk00_0123middlecase_56_6 -->
+            <!-- Part drive_palonier_6 -->
+            <!-- Part wj_wk00_0124bottomcase_45_6 -->
+            <!-- Part wj_wk00_0122topcabinetcase_95_6 -->
+            <!-- Part passive_palonier_6 -->
+            <!-- Link left_lower_leg_assembly -->
+            <body name="left_lower_leg_assembly" pos="0 -0.07865 0.0001" quat="1 -0 0 -0">
+              <!-- Joint from knee_and_ankle_assembly to left_lower_leg_assembly -->
+              <joint axis="0 0 1" name="left_knee" type="hinge" range="-0.20943951023857083 1.7453292519950783" class="sts3215"/>
+              <inertial pos="-0.00025375 -0.0561911 0.0167531" mass="0.0781678" fullinertia="5.64181e-05 2.13891e-05 4.77001e-05 7.6417e-08 -3.2865e-07 2.32168e-06"/>
+              <!-- Part leg_spacer_2 -->
+              <geom type="mesh" class="visual" pos="0.01606 0.14365 0.10925" quat="0.707107 -0.707107 0 0" mesh="leg_spacer" material="leg_spacer_material"/>
+              <!-- Part left_knee_to_ankle_right_sheet_2 -->
+              <geom type="mesh" class="visual" pos="0.01606 0.14365 0.10915" quat="0.707107 -0.707107 0 0" mesh="left_knee_to_ankle_right_sheet" material="left_knee_to_ankle_right_sheet_material"/>
+              <!-- Part left_knee_to_ankle_left_sheet_2 -->
+              <geom type="mesh" class="visual" pos="0.03506 0.0787241 0.10905" quat="0.707107 -0.707107 0 0" mesh="left_knee_to_ankle_left_sheet__2" material="left_knee_to_ankle_left_sheet__2_material"/>
+              <!-- Part wj_wk00_0123middlecase_56_7 -->
+              <!-- Part drive_palonier_7 -->
+              <!-- Part wj_wk00_0124bottomcase_45_7 -->
+              <!-- Part wj_wk00_0122topcabinetcase_95_7 -->
+              <!-- Part passive_palonier_7 -->
+              <!-- Link foot_assembly -->
+              <body name="foot_assembly" pos="-0 -0.07865 0.0001" quat="1 0 -0 0">
+                <!-- Joint from left_lower_leg_assembly to foot_assembly -->
+                <joint axis="0 0 1" name="left_ankle" type="hinge" range="-0.9948376736375486 0.7853981633966676" class="sts3215"/>
+                <inertial pos="0.0110718 -0.0246608 0.0190626" mass="0.07524" fullinertia="1.87482e-05 6.74427e-05 6.061e-05 1.58839e-06 -6.524e-09 5.6739e-08"/>
+                <!-- Part foot_side -->
+                <geom type="mesh" class="visual" pos="0.01606 0.2223 0.10905" quat="0.707107 -0.707107 0 0" mesh="foot_side" material="foot_side_material"/>
+                <!-- Part foot_bottom_tpu -->
+                <geom type="mesh" class="visual" pos="0.01656 0.2228 0.10955" quat="0.707107 -0.707107 0 0" mesh="foot_bottom_tpu" material="foot_bottom_tpu_material"/>
+                <geom type="mesh" class="collision" pos="0.01656 0.2228 0.10955" quat="0.707107 -0.707107 0 0" mesh="foot_bottom_tpu" material="foot_bottom_tpu_material"/>
+                <!-- Part foot_bottom_pla -->
+                <geom type="mesh" class="visual" pos="0.01656 0.2228 0.10955" quat="0.707107 -0.707107 0 0" mesh="foot_bottom_pla" material="foot_bottom_pla_material"/>
+                <!-- Part foot_top -->
+                <geom type="mesh" class="visual" pos="0.01606 0.2223 0.10905" quat="0.707107 -0.707107 0 0" mesh="foot_top" material="foot_top_material"/>
+                <!-- Frame left_foot -->
+                <site group="3" name="left_foot" pos="0.0005 -0.036225 0.01955" quat="0.707107 -0.707107 -0 0"/>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+      <!-- Link neck_pitch_assembly -->
+      <body name="neck_pitch_assembly" pos="0.00105 0.01665 0.0979509" quat="0.707107 0.707107 0 -0">
+        <!-- Joint from trunk_assembly to neck_pitch_assembly -->
+        <joint axis="0 0 1" name="neck_pitch" type="hinge" range="-0.6981317007975453 1.1344640137965007" class="sts3215"/>
+        <inertial pos="-5.63137e-06 0.0492968 0.0181786" mass="0.06618" fullinertia="3.49456e-05 1.70231e-05 2.80043e-05 8.756e-09 -2.156e-09 -1.8519e-08"/>
+        <!-- Part neck_left_sheet -->
+        <geom type="mesh" class="visual" pos="-0.02 -0.02511 0.01905" quat="0.707107 -0.707107 0 -0" mesh="neck_left_sheet" material="neck_left_sheet_material"/>
+        <!-- Part neck_right_sheet -->
+        <geom type="mesh" class="visual" pos="-0.02 -0.02511 0.01905" quat="0.707107 -0.707107 0 -0" mesh="neck_right_sheet" material="neck_right_sheet_material"/>
+        <!-- Part wj_wk00_0123middlecase_56_8 -->
+        <!-- Part drive_palonier_8 -->
+        <!-- Part wj_wk00_0124bottomcase_45_8 -->
+        <!-- Part wj_wk00_0122topcabinetcase_95_8 -->
+        <!-- Part passive_palonier_8 -->
+        <!-- Link head_pitch_to_yaw -->
+        <body name="head_pitch_to_yaw" pos="0 0.066 -0" quat="1 -0 -0 0">
+          <!-- Joint from neck_pitch_assembly to head_pitch_to_yaw -->
+          <joint axis="0 0 1" name="head_pitch" type="hinge" range="-0.78539816339726 0.7853981633976366" class="sts3215"/>
+          <inertial pos="-0.00766247 0.026015 0.0186681" mass="0.0176288" fullinertia="9.81512e-06 4.83725e-06 8.35674e-06 1.40711e-06 3.1838e-08 -8.7719e-08"/>
+          <!-- Part head_pitch_to_yaw -->
+          <geom type="mesh" class="visual" pos="-0.02 -0.09111 0.01905" quat="0.707107 -0.707107 -0 -0" mesh="head_pitch_to_yaw" material="head_pitch_to_yaw_material"/>
+          <!-- Link neck_yaw_assembly -->
+          <body name="neck_yaw_assembly" pos="-0 0.057 0.01905" quat="0.707107 -0.707107 0 0">
+            <!-- Joint from head_pitch_to_yaw to neck_yaw_assembly -->
+            <joint axis="0 0 1" name="head_yaw" type="hinge" range="-2.792526803190927 2.792526803190927" class="sts3215"/>
+            <inertial pos="0.0039502 3.89333e-06 -0.0223844" mass="0.0933117" fullinertia="3.1915e-05 7.13482e-05 7.24757e-05 4.23e-09 -4.50186e-06 -3.858e-09"/>
+            <!-- Part head_yaw_to_roll -->
+            <geom type="mesh" class="visual" pos="-0.02 0 -0.14821" quat="1 -0 -0 0" mesh="head_yaw_to_roll" material="head_yaw_to_roll_material"/>
+            <!-- Part wj_wk00_0123middlecase_56_9 -->
+            <!-- Part drive_palonier_9 -->
+            <!-- Part wj_wk00_0124bottomcase_45_9 -->
+            <!-- Part wj_wk00_0122topcabinetcase_95_9 -->
+            <!-- Part passive_palonier_9 -->
+            <!-- Link head_assembly -->
+            <body name="head_assembly" pos="0.04095 0 -0.01915" quat="0.707107 -0 -0.707107 0">
+              <!-- Joint from neck_yaw_assembly to head_assembly -->
+              <joint axis="0 0 1" name="head_roll" type="hinge" range="-0.5235987755982056 0.5235987755983921" class="sts3215"/>
+              <inertial pos="0.0119863 -0.000810771 0.011892" mass="0.150459" fullinertia="0.000769995 0.000467627 0.000378776 -8.77761e-06 4.79235e-05 8.77099e-05"/>
+              <!-- Part right_antenna_holder -->
+              <geom type="mesh" class="visual" pos="-0.12906 -0 0.06095" quat="0.707107 -0 0.707107 0" mesh="right_antenna_holder" material="right_antenna_holder_material"/>
+              <!-- Part antenna -->
+              <geom type="mesh" class="visual" pos="-0.0830595 0.182212 0.06095" quat="0.685585 0.173128 0.685585 -0.173128" mesh="antenna" material="antenna_material"/>
+              <!-- Part antenna_2 -->
+              <geom type="mesh" class="visual" pos="-0.12808 0.000247509 0.06095" quat="0.707107 -0 0.707107 0" mesh="antenna" material="antenna_material"/>
+              <!-- Part left_antenna_holder -->
+              <geom type="mesh" class="visual" pos="-0.12906 0 0.06095" quat="0.707107 -0 0.707107 -0" mesh="left_antenna_holder" material="left_antenna_holder_material"/>
+              <!-- Part baseplate_rear -->
+              <geom type="mesh" class="visual" pos="-0.193851 -0.000137142 0.0411101" quat="0.707107 0 0.707107 0" mesh="baseplate_rear" material="baseplate_rear_material"/>
+              <!-- Part cam -->
+              <!-- Part milkylens -->
+              <geom type="mesh" class="visual" pos="-0.193851 -0.00049334 0.0373419" quat="0.707107 0 0.707107 0" mesh="milkylens" material="milkylens_material"/>
+              <!-- Part bearingmount -->
+              <geom type="mesh" class="visual" pos="-0.193851 -0.000137142 0.0411101" quat="0.707107 0 0.707107 0" mesh="bearingmount" material="bearingmount_material"/>
+              <!-- Part baseplate_front -->
+              <geom type="mesh" class="visual" pos="-0.193851 -0.000137142 0.0411101" quat="0.707107 -0 0.707107 -0" mesh="baseplate_front" material="baseplate_front_material"/>
+              <!-- Part headtop -->
+              <geom type="mesh" class="visual" pos="-0.193851 -0.000137142 0.0411101" quat="0.707107 -0 0.707107 0" mesh="headtop" material="headtop_material"/>
+              <!-- Part milkylens__1 -->
+              <geom type="mesh" class="visual" pos="-0.193851 0.000294357 0.0365453" quat="0.707107 -0 0.707107 0" mesh="milkylens__1" material="milkylens__1_material"/>
+              <!-- Part flash_reflector_interface -->
+              <geom type="mesh" class="visual" pos="-0.128981 -2.89009e-05 0.0602595" quat="0.707107 -0 0.707107 -0" mesh="flash_reflector_interface" material="flash_reflector_interface_material"/>
+              <!-- Part head_roll_mount -->
+              <!-- Part flash_light_module -->
+              <geom type="mesh" class="visual" pos="-0.128981 -2.89009e-05 0.0602595" quat="0.707107 -0 0.707107 -0" mesh="flash_light_module" material="flash_light_module_material"/>
+              <!-- Part parklike_right_eye -->
+              <geom type="mesh" class="visual" pos="-0.193851 -0.000135729 0.0411251" quat="0.707107 0 0.707107 0" mesh="parklike_right_eye" material="parklike_right_eye_material"/>
+              <!-- Part full_speaker -->
+              <!-- Part roll_bearing_3 -->
+              <!-- Part parklike_left_eye -->
+              <geom type="mesh" class="visual" pos="-0.193851 -0.000138541 0.0411249" quat="0.707107 -0 0.707107 0" mesh="parklike_left_eye" material="parklike_left_eye_material"/>
+              <!-- Part sg90 -->
+              <!-- Part faceplatecurve -->
+              <geom type="mesh" class="visual" pos="-0.193851 -0.000137142 0.0411101" quat="0.707107 -0 0.707107 0" mesh="faceplatecurve" material="faceplatecurve_material"/>
+              <!-- Part sg90_2 -->
+              <!-- Part speaker_interface -->
+              <!-- Part speaker_stand -->
+              <!-- Part wj_wk00_0123middlecase_56_10 -->
+              <!-- Part drive_palonier_10 -->
+              <!-- Part wj_wk00_0124bottomcase_45_10 -->
+              <!-- Part wj_wk00_0122topcabinetcase_95_10 -->
+              <!-- Part passive_palonier_10 -->
+              <!-- Frame head -->
+              <site group="3" name="head" pos="0.04255 -3.79852e-05 0.0358704" quat="0.707107 0 0.707107 0"/>
+            </body>
+          </body>
+        </body>
+      </body>
+      <!-- Link hip_roll_assembly_2 -->
+      <body name="hip_roll_assembly_2" pos="-0.01895 -0.0375 0.0538909" quat="1 -0 -0 1e-12">
+        <!-- Joint from trunk_assembly to hip_roll_assembly_2 -->
+        <joint axis="0 0 1" name="right_hip_yaw" type="hinge" range="-0.5235987756004544 0.5235987755961432" class="sts3215"/>
+        <inertial pos="0.000795081 -5.46541e-06 -0.03306" mass="0.06648" fullinertia="2.44411e-05 2.81818e-05 1.42687e-05 2.357e-09 -3.81059e-07 -7.5e-09"/>
+        <!-- Part roll_motor_bottom_2 -->
+        <geom type="mesh" class="visual" pos="-0 -0.035 0.01905" quat="1 -0 0 -0" mesh="roll_motor_bottom" material="roll_motor_bottom_material"/>
+        <!-- Part roll_motor_top_2 -->
+        <geom type="mesh" class="visual" pos="0 -0.035 0.01905" quat="1 0 0 0" mesh="roll_motor_top" material="roll_motor_top_material"/>
+        <!-- Part wj_wk00_0123middlecase_56_11 -->
+        <!-- Part drive_palonier_11 -->
+        <!-- Part wj_wk00_0124bottomcase_45_11 -->
+        <!-- Part wj_wk00_0122topcabinetcase_95_11 -->
+        <!-- Part passive_palonier_11 -->
+        <!-- Link right_roll_to_pitch_assembly -->
+        <body name="right_roll_to_pitch_assembly" pos="0.01905 0 -0.046015" quat="0.5 -0.5 -0.5 0.5">
+          <!-- Joint from hip_roll_assembly_2 to right_roll_to_pitch_assembly -->
+          <joint axis="0 0 1" name="right_hip_roll" type="hinge" range="-0.43633231299827685 0.4363323129988879" class="sts3215"/>
+          <inertial pos="-0.0503147 -0.000413629 0.0201805" mass="0.0758098" fullinertia="2.5882e-05 4.38314e-05 2.99697e-05 -1.44814e-07 1.71388e-06 -8.1403e-08"/>
+          <!-- Part mini_bdx_covers__hip_cable_holder_2 -->
+          <geom type="mesh" class="visual" pos="-0.035 -7.40612e-05 5e-05" quat="0.5 0.5 0.5 -0.5" mesh="mini_bdx_covers__hip_cable_holder" material="mini_bdx_covers__hip_cable_holder_material"/>
+          <!-- Part right_roll_to_pitch -->
+          <geom type="mesh" class="visual" pos="0.035 -0.065 0.01905" quat="0.5 0.5 0.5 -0.5" mesh="right_roll_to_pitch" material="right_roll_to_pitch_material"/>
+          <!-- Part wj_wk00_0123middlecase_56_12 -->
+          <!-- Part drive_palonier_12 -->
+          <!-- Part wj_wk00_0124bottomcase_45_12 -->
+          <!-- Part wj_wk00_0122topcabinetcase_95_12 -->
+          <!-- Part passive_palonier_12 -->
+          <!-- Link knee_and_ankle_assembly_2 -->
+          <body name="knee_and_ankle_assembly_2" pos="-0.07415 0 0.03511" quat="0.707107 0.000224764 0.707107 0.000224764">
+            <!-- Joint from right_roll_to_pitch_assembly to knee_and_ankle_assembly_2 -->
+            <joint axis="0 0 1" name="right_hip_pitch" type="hinge" range="-0.5242345035500618 1.2210947484442676" class="sts3215"/>
+            <inertial pos="0.00295803 0.0440374 0.00949308" mass="0.119965" fullinertia="0.000190736 7.37499e-05 0.000194393 1.87587e-05 4.92437e-06 -1.74217e-05"/>
+            <!-- Part mini_bdx_covers__right_leg_cover -->
+            <geom type="mesh" class="visual" pos="0.03506 -7.40612e-05 0.1092" quat="0.707107 0.707107 0 -0" mesh="mini_bdx_covers__right_leg_cover" material="mini_bdx_covers__right_leg_cover_material"/>
+            <!-- Part mini_bdx_covers__right_lower_cable_guide -->
+            <geom type="mesh" class="visual" pos="0.03506 -7.40612e-05 0.1092" quat="0.707107 0.707107 0 -0" mesh="mini_bdx_covers__right_lower_cable_guide" material="mini_bdx_covers__right_lower_cable_guide_material"/>
+            <!-- Part mini_bdx_covers__right_upper_cable_guide -->
+            <geom type="mesh" class="visual" pos="0.03506 -7.40612e-05 0.109184" quat="0.707107 0.707107 0 -0" mesh="mini_bdx_covers__right_upper_cable_guide" material="mini_bdx_covers__right_upper_cable_guide_material"/>
+            <!-- Part leg_spacer_3 -->
+            <geom type="mesh" class="visual" pos="0.01606 -0.14365 -0.07215" quat="0.707107 0.707107 0 0" mesh="leg_spacer" material="leg_spacer_material"/>
+            <!-- Part left_knee_to_ankle_right_sheet_3 -->
+            <geom type="mesh" class="visual" pos="0.01606 -0.14365 -0.07205" quat="0.707107 0.707107 0 0" mesh="left_knee_to_ankle_right_sheet" material="left_knee_to_ankle_right_sheet_material"/>
+            <!-- Part left_knee_to_ankle_left_sheet_3 -->
+            <geom type="mesh" class="visual" pos="0.01606 -0.14365 -0.07205" quat="0.707107 0.707107 -0 0" mesh="left_knee_to_ankle_left_sheet" material="left_knee_to_ankle_left_sheet_material"/>
+            <!-- Part wj_wk00_0123middlecase_56_13 -->
+            <!-- Part drive_palonier_13 -->
+            <!-- Part wj_wk00_0124bottomcase_45_13 -->
+            <!-- Part wj_wk00_0122topcabinetcase_95_13 -->
+            <!-- Part passive_palonier_13 -->
+            <!-- Link right_lower_leg_assembly -->
+            <body name="right_lower_leg_assembly" pos="-0 0.07865 0.037" quat="0 1 -0 0">
+              <!-- Joint from knee_and_ankle_assembly_2 to right_lower_leg_assembly -->
+              <joint axis="0 0 1" name="right_knee" type="hinge" range="-0.20943951023941637 1.7453292519942327" class="sts3215"/>
+              <inertial pos="-0.000219956 -0.0564701 0.0191757" mass="0.0765738" fullinertia="5.54575e-05 2.09192e-05 4.69105e-05 7.1417e-08 3.14362e-07 -1.84524e-06"/>
+              <!-- Part leg_spacer_4 -->
+              <geom type="mesh" class="visual" pos="0.01606 0.14365 0.10925" quat="0.707107 -0.707107 0 -0" mesh="leg_spacer" material="leg_spacer_material"/>
+              <!-- Part left_knee_to_ankle_right_sheet_4 -->
+              <geom type="mesh" class="visual" pos="0.03506 0.0787241 -0.07215" quat="0.707107 -0.707107 0 -0" mesh="left_knee_to_ankle_right_sheet__2" material="left_knee_to_ankle_right_sheet__2_material"/>
+              <!-- Part left_knee_to_ankle_left_sheet_4 -->
+              <geom type="mesh" class="visual" pos="0.01606 0.14365 0.10915" quat="0.707107 -0.707107 0 0" mesh="left_knee_to_ankle_left_sheet" material="left_knee_to_ankle_left_sheet_material"/>
+              <!-- Part wj_wk00_0123middlecase_56_14 -->
+              <!-- Part drive_palonier_14 -->
+              <!-- Part wj_wk00_0124bottomcase_45_14 -->
+              <!-- Part wj_wk00_0122topcabinetcase_95_14 -->
+              <!-- Part passive_palonier_14 -->
+              <!-- Link foot_assembly_2 -->
+              <body name="foot_assembly_2" pos="0 -0.07865 0.0001" quat="1 0 -0 -0">
+                <!-- Joint from right_lower_leg_assembly to foot_assembly_2 -->
+                <joint axis="0 0 1" name="right_ankle" type="hinge" range="-0.9948376736366142 0.7853981633976019" class="sts3215"/>
+                <inertial pos="0.0110718 -0.0246608 0.0190626" mass="0.07524" fullinertia="1.87482e-05 6.74427e-05 6.061e-05 1.58839e-06 -6.524e-09 5.6739e-08"/>
+                <!-- Part foot_side_2 -->
+                <geom type="mesh" class="visual" pos="0.01606 0.2223 0.10905" quat="0.707107 -0.707107 0 -0" mesh="foot_side" material="foot_side_material"/>
+                <!-- Part foot_bottom_tpu_2 -->
+                <geom type="mesh" class="visual" pos="0.01656 0.2228 0.10955" quat="0.707107 -0.707107 0 -0" mesh="foot_bottom_tpu" material="foot_bottom_tpu_material"/>
+                <geom type="mesh" class="collision" pos="0.01656 0.2228 0.10955" quat="0.707107 -0.707107 0 -0" mesh="foot_bottom_tpu" material="foot_bottom_tpu_material"/>
+                <!-- Part foot_bottom_pla_2 -->
+                <geom type="mesh" class="visual" pos="0.01656 0.2228 0.10955" quat="0.707107 -0.707107 0 -0" mesh="foot_bottom_pla" material="foot_bottom_pla_material"/>
+                <!-- Part foot_top_2 -->
+                <geom type="mesh" class="visual" pos="0.01606 0.2223 0.10905" quat="0.707107 -0.707107 0 -0" mesh="foot_top" material="foot_top_material"/>
+                <!-- Frame right_foot -->
+                <site group="3" name="right_foot" pos="0.0005 -0.036225 0.01955" quat="0.707107 -0.707107 0 -0"/>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+  <asset>
+    <mesh file="mini_bdx_covers__left_upper_cable_guide.stl"/>
+    <mesh file="mini_bdx_covers__hip_cable_holder.stl"/>
+    <mesh file="ruthex_rx_m3_5_7_1__körper1.stl"/>
+    <mesh file="mini_bdx_covers__left_lower_cable_guide.stl"/>
+    <mesh file="roll_motor_bottom.stl"/>
+    <mesh file="antenna.stl"/>
+    <mesh file="left_roll_to_pitch.stl"/>
+    <mesh file="rpi_front_mount__rpi_and_5v_reg_mount.stl"/>
+    <mesh file="rpi_front_mount__rpi_zero_bridge_bottom.stl"/>
+    <mesh file="neck_right_sheet.stl"/>
+    <mesh file="baseplate_rear.stl"/>
+    <mesh file="parklike_left_eye.stl"/>
+    <mesh file="roll_motor_top.stl"/>
+    <mesh file="left_antenna_holder.stl"/>
+    <mesh file="bearingmount.stl"/>
+    <mesh file="flash_reflector_interface.stl"/>
+    <mesh file="milkylens.stl"/>
+    <mesh file="faceplatecurve.stl"/>
+    <mesh file="foot_top.stl"/>
+    <mesh file="mini_bdx_covers__right_lower_cable_guide.stl"/>
+    <mesh file="head_yaw_to_roll.stl"/>
+    <mesh file="foot_bottom_tpu.stl"/>
+    <mesh file="left_knee_to_ankle_right_sheet.stl"/>
+    <mesh file="headtop.stl"/>
+    <mesh file="mini_bdx_covers__top_body_support.stl"/>
+    <mesh file="left_knee_to_ankle_left_sheet__2.stl"/>
+    <mesh file="neck_left_sheet.stl"/>
+    <mesh file="right_antenna_holder.stl"/>
+    <mesh file="left_knee_to_ankle_right_sheet__2.stl"/>
+    <mesh file="mini_bdx_covers__e_stop_adapter_plate.stl"/>
+    <mesh file="foot_side.stl"/>
+    <mesh file="head_pitch_to_yaw.stl"/>
+    <mesh file="mini_bdx_covers__right_upper_cable_guide.stl"/>
+    <mesh file="mini_bdx_covers__trunk_top_back.stl"/>
+    <mesh file="milkylens__1.stl"/>
+    <mesh file="mini_bdx_covers__e_stop_panel.stl"/>
+    <mesh file="mini_bdx_covers__right_leg_cover.stl"/>
+    <mesh file="rpi_front_mount__rpi_zero_bridge_top.stl"/>
+    <mesh file="mini_bdx_covers__left_leg_cover.stl"/>
+    <mesh file="baseplate_front.stl"/>
+    <mesh file="flash_light_module.stl"/>
+    <mesh file="mini_bdx_covers__front_cover.stl"/>
+    <mesh file="parklike_right_eye.stl"/>
+    <mesh file="foot_bottom_pla.stl"/>
+    <mesh file="mini_bdx_covers__back_panel.stl"/>
+    <mesh file="mini_bdx_covers__trunk_bottom.stl"/>
+    <mesh file="leg_spacer.stl"/>
+    <mesh file="left_knee_to_ankle_left_sheet.stl"/>
+    <mesh file="mini_bdx_covers__front_panel_v4.stl"/>
+    <mesh file="mini_bdx_covers__front_greeble.stl"/>
+    <mesh file="mini_bdx_covers__trunk_top_front.stl"/>
+    <mesh file="right_roll_to_pitch.stl"/>
+    <material name="mini_bdx_covers__e_stop_panel_material" rgba="1 1 1 1"/>
+    <material name="mini_bdx_covers__front_cover_material" rgba="0.627451 0.627451 0.643137 1"/>
+    <material name="mini_bdx_covers__front_greeble_material" rgba="0.627451 0.627451 0.627451 1"/>
+    <material name="mini_bdx_covers__front_panel_v4_material" rgba="1 1 1 1"/>
+    <material name="mini_bdx_covers__back_panel_material" rgba="1 1 1 1"/>
+    <material name="mini_bdx_covers__e_stop_adapter_plate_material" rgba="1 1 1 1"/>
+    <material name="rpi_front_mount__rpi_and_5v_reg_mount_material" rgba="0.627451 0.627451 0.643137 1"/>
+    <material name="mini_bdx_covers__trunk_top_back_material" rgba="0.180392 0.180392 0.180392 1"/>
+    <material name="mini_bdx_covers__trunk_bottom_material" rgba="0.180392 0.180392 0.180392 1"/>
+    <material name="mini_bdx_covers__trunk_top_front_material" rgba="0.180392 0.180392 0.180392 1"/>
+    <material name="rpi_front_mount__rpi_zero_bridge_bottom_material" rgba="0.501961 0.501961 0.501961 1"/>
+    <material name="ruthex_rx_m3_5_7_1__körper1_material" rgba="0.952941 0.796078 0.486275 1"/>
+    <material name="mini_bdx_covers__top_body_support_material" rgba="0.180392 0.180392 0.180392 1"/>
+    <material name="rpi_front_mount__rpi_zero_bridge_top_material" rgba="0.627451 0.627451 0.643137 1"/>
+    <material name="roll_motor_bottom_material" rgba="0.647059 0.647059 0.647059 1"/>
+    <material name="roll_motor_top_material" rgba="0.901961 0.901961 0.901961 1"/>
+    <material name="mini_bdx_covers__hip_cable_holder_material" rgba="0.627451 0.627451 0.643137 1"/>
+    <material name="left_roll_to_pitch_material" rgba="0.909804 0.572549 0.164706 1"/>
+    <material name="mini_bdx_covers__left_leg_cover_material" rgba="1 1 1 1"/>
+    <material name="mini_bdx_covers__left_upper_cable_guide_material" rgba="1 1 1 1"/>
+    <material name="mini_bdx_covers__left_lower_cable_guide_material" rgba="1 1 1 1"/>
+    <material name="leg_spacer_material" rgba="0.647059 0.647059 0.647059 1"/>
+    <material name="left_knee_to_ankle_right_sheet_material" rgba="0.223529 0.219608 0.219608 1"/>
+    <material name="left_knee_to_ankle_left_sheet_material" rgba="0.223529 0.219608 0.219608 1"/>
+    <material name="left_knee_to_ankle_left_sheet__2_material" rgba="0.223529 0.219608 0.219608 1"/>
+    <material name="foot_side_material" rgba="0.980392 0.713725 0.00392157 1"/>
+    <material name="foot_bottom_tpu_material" rgba="0.305882 0.298039 0.278431 1"/>
+    <material name="foot_bottom_pla_material" rgba="0.305882 0.298039 0.278431 1"/>
+    <material name="foot_top_material" rgba="0.980392 0.713725 0.00392157 1"/>
+    <material name="neck_left_sheet_material" rgba="0.223529 0.219608 0.219608 1"/>
+    <material name="neck_right_sheet_material" rgba="0.223529 0.219608 0.219608 1"/>
+    <material name="head_pitch_to_yaw_material" rgba="0.4 0.4 0.4 1"/>
+    <material name="head_yaw_to_roll_material" rgba="0.647059 0.647059 0.647059 1"/>
+    <material name="right_antenna_holder_material" rgba="0.980392 0.713725 0.00392157 1"/>
+    <material name="antenna_material" rgba="0.647059 0.647059 0.647059 1"/>
+    <material name="left_antenna_holder_material" rgba="0.980392 0.713725 0.00392157 1"/>
+    <material name="baseplate_rear_material" rgba="0.627451 0.627451 0.627451 1"/>
+    <material name="milkylens_material" rgba="0.627451 0.627451 0.627451 1"/>
+    <material name="bearingmount_material" rgba="0.917647 0.917647 0.917647 1"/>
+    <material name="baseplate_front_material" rgba="0.627451 0.627451 0.627451 1"/>
+    <material name="headtop_material" rgba="0.917647 0.917647 0.917647 1"/>
+    <material name="milkylens__1_material" rgba="0.627451 0.627451 0.627451 1"/>
+    <material name="flash_reflector_interface_material" rgba="0.647059 0.647059 0.647059 1"/>
+    <material name="flash_light_module_material" rgba="0.34902 0.376471 0.4 1"/>
+    <material name="parklike_right_eye_material" rgba="0.34902 0.376471 0.4 1"/>
+    <material name="parklike_left_eye_material" rgba="0.498039 0.498039 0.498039 1"/>
+    <material name="faceplatecurve_material" rgba="0.627451 0.627451 0.627451 1"/>
+    <material name="right_roll_to_pitch_material" rgba="0.909804 0.572549 0.164706 1"/>
+    <material name="mini_bdx_covers__right_leg_cover_material" rgba="1 1 1 1"/>
+    <material name="mini_bdx_covers__right_lower_cable_guide_material" rgba="1 1 1 1"/>
+    <material name="mini_bdx_covers__right_upper_cable_guide_material" rgba="1 1 1 1"/>
+    <material name="left_knee_to_ankle_right_sheet__2_material" rgba="0.223529 0.219608 0.219608 1"/>
+  </asset>
+  <actuator>
+    <position class="sts3215" name="left_hip_yaw" joint="left_hip_yaw" inheritrange="1"/>
+    <position class="sts3215" name="left_hip_roll" joint="left_hip_roll" inheritrange="1"/>
+    <position class="sts3215" name="left_hip_pitch" joint="left_hip_pitch" inheritrange="1"/>
+    <position class="sts3215" name="left_knee" joint="left_knee" inheritrange="1"/>
+    <position class="sts3215" name="left_ankle" joint="left_ankle" inheritrange="1"/>
+    <position class="sts3215" name="neck_pitch" joint="neck_pitch" inheritrange="1"/>
+    <position class="sts3215" name="head_pitch" joint="head_pitch" inheritrange="1"/>
+    <position class="sts3215" name="head_yaw" joint="head_yaw" inheritrange="1"/>
+    <position class="sts3215" name="head_roll" joint="head_roll" inheritrange="1"/>
+    <position class="sts3215" name="right_hip_yaw" joint="right_hip_yaw" inheritrange="1"/>
+    <position class="sts3215" name="right_hip_roll" joint="right_hip_roll" inheritrange="1"/>
+    <position class="sts3215" name="right_hip_pitch" joint="right_hip_pitch" inheritrange="1"/>
+    <position class="sts3215" name="right_knee" joint="right_knee" inheritrange="1"/>
+    <position class="sts3215" name="right_ankle" joint="right_ankle" inheritrange="1"/>
+  </actuator>
+  <equality/>
+</mujoco>

@@ -19,7 +19,7 @@
       width="300" height="300"/>
     <!-- <texture type="2d" name="groundplane" file="assets/rocky_texture.png"/> -->
     <material name="groundplane" texture="groundplane" texuniform="true" texrepeat="5 5" reflectance=".8"/>
-    <hfield name="hfield" file="assets/hfield.png" size="10 10 .01 0.1"/>
+    <hfield name="hfield" file="hfield.png" size="10 10 .01 0.1"/>
   </asset>
 
   <worldbody>
@@ -32,44 +32,44 @@
   <keyframe>
     <key name="home"
       qpos="
-        0 0 0.15
+        0 0 0.153
         1 0 0 0
 
-        0.002 0
-        0.053 0
+        0.0 0
+        0.0 0
         -0.63 0
-        1.368 0
-        -0.784 0
+        1.37 0
+        -0.74 0
 
         0
         0
         0
         0
 
-        -0.003 0
-        -0.065 0
-        0.635 0
-        1.379 0
-        -0.796 0
+        0.0 0
+        0.0 0
+        0.63 0
+        1.37 0
+        -0.74 0
 
       "
       ctrl="
-          0.002
-          0.053
+          0.0
+          0.0
           -0.63
-          1.368
-          -0.784
+          1.37
+          -0.74
 
           0
           0
           0
           0
           
-          -0.003
-          -0.065
-          0.635
-          1.379
-          -0.796
+          0.0
+          0.0
+          0.63
+          1.37
+          -0.74
       "/>
   </keyframe>
 </mujoco>

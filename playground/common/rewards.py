@@ -3,6 +3,7 @@ Set of commonly used rewards
 For examples on how to use some rewards, look at https://github.com/google-deepmind/mujoco_playground/blob/main/mujoco_playground/_src/locomotion/berkeley_humanoid/joystick.py
 """
 
+from typing import Optional
 import jax
 import jax.numpy as jp
 
@@ -16,13 +17,11 @@ def reward_tracking_lin_vel(
     commands: jax.Array,
     local_vel: jax.Array,
     tracking_sigma: float,
+    y_weight: float = 1.0,
 ) -> jax.Array:
-    # lin_vel_error = jp.sum(jp.square(commands[:2] - local_vel[:2]))
-    # return jp.nan_to_num(jp.exp(-lin_vel_error / self._config.reward_config.tracking_sigma))
-    y_tol = 0.1
     error_x = jp.square(commands[0] - local_vel[0])
-    error_y = jp.clip(jp.abs(local_vel[1] - commands[1]) - y_tol, 0.0, None)
-    lin_vel_error = error_x + jp.square(error_y)
+    error_y = y_weight * jp.square(commands[1] - local_vel[1])
+    lin_vel_error = error_x + error_y
     return jp.nan_to_num(jp.exp(-lin_vel_error / tracking_sigma))
 
 
@@ -100,6 +99,7 @@ def cost_stand_still(
     qvel: jax.Array,
     default_pose: jax.Array,
     ignore_head: bool = False,
+    active_mask: jax.Array = 1.0,
 ) -> jax.Array:
     # TODO no hard coded slices
     cmd_norm = safe_norm(commands[:3])
@@ -119,7 +119,7 @@ def cost_stand_still(
         vel_cost = jp.sum(jp.abs(left_leg_vel)) + jp.sum(jp.abs(right_leg_vel))
 
     cost = jp.nan_to_num(pose_cost + vel_cost)
-    return jp.where(cmd_norm < 0.01, cost, 0.0)
+    return jp.where(cmd_norm < 0.01, cost, 0.0) * active_mask
 
 
 def cost_termination(done: jax.Array) -> jax.Array:
@@ -221,11 +221,19 @@ def reward_feet_air_time(
     commands: jax.Array,
     threshold_min: float = 0.1,  # 0.2
     threshold_max: float = 0.5,
+    swing_peak: Optional[jax.Array] = None,
+    min_swing_height: float = 0.008,
 ) -> jax.Array:
     cmd_norm = safe_norm(commands[:3])
-    air_time = (air_time - threshold_min) * first_contact
-    air_time = jp.clip(air_time, max=threshold_max - threshold_min)
-    reward = jp.sum(air_time)
+    air_time_rew = (
+        jp.clip(air_time - threshold_min, 0.0, threshold_max - threshold_min)
+        * first_contact
+    )
+    if swing_peak is not None:
+        air_time_rew = air_time_rew * jp.clip(
+            (swing_peak - min_swing_height) / 0.012, 0.0, 1.0
+        )
+    reward = jp.sum(air_time_rew)
     reward = jp.nan_to_num(reward)
     return jp.where(cmd_norm > 0.01, reward, 0.0)
 

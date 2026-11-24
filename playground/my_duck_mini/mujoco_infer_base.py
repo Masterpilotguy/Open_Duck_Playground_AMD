@@ -16,7 +16,6 @@ class MJInferBase:
         self.decimation = 10
         self.model.opt.timestep = self.sim_dt
         self.data = mujoco.MjData(self.model)
-        mujoco.mj_step(self.model, self.data)
 
         self.num_dofs = self.model.nu
         self.floating_base_name = [
@@ -91,6 +90,16 @@ class MJInferBase:
         # self.all_joint_no_backlash_ids=[idx for idx in self.all_joint_ids if idx not in self.backlash_joint_ids]+list(range(self._floating_base_add,self._floating_base_add+7))
         self.all_joint_no_backlash_ids = [idx for idx in all_idx]
 
+        self.backlash_idx_to_add = [
+            i
+            for i, actuator_name in enumerate(self.actuator_names)
+            if actuator_name + "_backlash" not in self.backlash_joint_names
+        ]
+        self._backlash_actuator_idx = np.array(
+            [i for i in range(self.num_dofs) if i not in self.backlash_idx_to_add],
+            dtype=np.int32,
+        )
+
         self.gyro_id = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_SENSOR, "gyro")
         self.gyro_addr = self.model.sensor_adr[self.gyro_id]
         self.gyro_dimensions = 3
@@ -104,6 +113,7 @@ class MJInferBase:
         self.linvel_id = mujoco.mj_name2id(
             self.model, mujoco.mjtObj.mjOBJ_SENSOR, "local_linvel"
         )
+        self.linvel_addr = self.model.sensor_adr[self.linvel_id]
         self.linvel_dimensions = 3
 
         self.imu_site_id = mujoco.mj_name2id(
@@ -120,12 +130,13 @@ class MJInferBase:
         )  # pose of all the joints (no floating base)
         self.default_actuator = self.model.keyframe(
             "home"
-        ).ctrl  # ctrl of all the actual joints (no floating base and no backlash)
-        self.motor_targets = self.default_actuator
-        self.prev_motor_targets = self.default_actuator
+        ).ctrl.copy()  # ctrl of all the actual joints (no floating base and no backlash)
+        self.motor_targets = self.default_actuator.copy()
+        self.prev_motor_targets = self.default_actuator.copy()
 
         self.data.qpos[:] = self.model.keyframe("home").qpos
         self.data.ctrl[:] = self.default_actuator
+        mujoco.mj_forward(self.model, self.data)
 
     def get_actuator_id_from_name(self, name: str) -> int:
         """Return the id of a specified actuator"""
@@ -195,6 +206,12 @@ class MJInferBase:
         """Return the all the qpos of actual joints"""
         return data[self.get_actuator_joints_addr()]
 
+    def get_actuator_backlash_qpos(self, qpos: np.ndarray) -> np.ndarray:
+        """Return the all the qpos of backlash joints"""
+        if not self.backlash_joint_qpos_addr:
+            return np.array([])
+        return qpos[np.array(self.backlash_joint_qpos_addr).reshape(-1)].reshape(-1)
+
     def set_actuator_joints_qpos(
         self, new_qpos: np.ndarray, qpos: np.ndarray
     ) -> np.ndarray:
@@ -246,15 +263,14 @@ class MJInferBase:
         ]
 
     def get_linvel(self, data):
-        return data.sensordata[self.linvel_id : self.linvel_id + self.linvel_dimensions]
-
-    # def get_gravity(self, data):
-    #     return data.site_xmat[self.imu_site_id].reshape((3, 3)).T @ np.array([0, 0, -1])
+        return data.sensordata[
+            self.linvel_addr : self.linvel_addr + self.linvel_dimensions
+        ]
 
     def get_gravity(self, data):
-        return data.sensordata[
-            self.gravity_id : self.gravity_id + self.gravity_dimensions
-        ]
+        return data.site_xmat[self.imu_site_id].reshape((3, 3)).T @ np.array(
+            [0.0, 0.0, -1.0]
+        )
 
     def check_contact(self, data, body1_name, body2_name):
         body1_id = data.body(body1_name).id

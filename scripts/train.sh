@@ -6,7 +6,7 @@ cd "$(dirname "$0")/.."
 PY=".venv/bin/python"
 SCRIPT="${SCRIPT:-playground/my_duck_mini/runner.py}"
 TASK="${TASK:-flat_terrain_backlash}"
-STEPS="${STEPS:-1000000}"
+STEPS="${STEPS:-300000000}"
 
 export HSA_ENABLE_DXG_DETECTION=1
 export ROCR_VISIBLE_DEVICES=0

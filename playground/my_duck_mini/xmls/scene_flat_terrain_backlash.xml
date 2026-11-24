@@ -2,7 +2,7 @@
     <include file="open_duck_mini_v2_backlash.xml"/>
 
     <visual>
-        <headlight diffuse="0.6 0.6 0.6" ambient="0.3 0.3 0.3" specular="0 0 0"/>
+        <headlight diffuse="0.6 0.6 0.6" ambient="0.3 0.3 0.3" specular="0.25 0.25 0.25"/>
         <rgba haze="0.15 0.25 0.35 1"/>
         <global azimuth="160" elevation="-20"/>
     </visual>
@@ -24,13 +24,14 @@
 
 
     <asset>
-        <texture type="skybox" builtin="gradient" rgb1="1 1 1" rgb2="1 1 1" width="800" height="800"/>
-        <texture type="2d" name="groundplane" builtin="checker" mark="edge" rgb1="1 1 1" rgb2="1 1 1" markrgb="0 0 0"
+        <texture type="skybox" builtin="gradient" rgb1="0.85 0.90 0.96" rgb2="0.60 0.68 0.78" width="800" height="800"/>
+        <texture type="2d" name="groundplane" builtin="checker" mark="edge" rgb1="0.35 0.40 0.46" rgb2="0.28 0.33 0.38" markrgb="0.55 0.60 0.66"
             width="300" height="300"/>
         <material name="groundplane" texture="groundplane" texuniform="true" texrepeat="5 5" reflectance="0"/>
     </asset>
 
     <worldbody>
+        <light pos="0 0 3.5" dir="0 0 -1" directional="true" castshadow="false" diffuse="0.5 0.5 0.5" specular="0.2 0.2 0.2"/>
         <body name="floor">
             <geom name="floor" size="0 0 0.01" type="plane" material="groundplane" contype="1" conaffinity="0"
                 priority="1" friction="0.6" condim="3"/>
@@ -39,41 +40,41 @@
     <keyframe>
         <key name="home"
             qpos="
-        0 0 0.15
+        0 0 0.153
         1 0 0 0
 
-        0.002 0
-        0.053 0
+        0.0 0
+        0.0 0
         -0.63 0
-        1.368 0
-        -0.784 0
+        1.37 0
+        -0.74 0
 
         0
         0
         0
         0
 
-        -0.003 0
-        -0.065 0
-        0.635 0
-        1.379 0
-        -0.796 0
+        0.0 0
+        0.0 0
+        0.63 0
+        1.37 0
+        -0.74 0
 "
             ctrl="
-          0.002
-        0.053
+          0.0
+        0.0
         -0.63
-        1.368
-        -0.784
+        1.37
+        -0.74
         0
         0
         0
         0
-        -0.003
-        -0.065
-        0.635
-        1.379
-        -0.796
+        0.0
+        0.0
+        0.63
+        1.37
+        -0.74
           "/>
     </keyframe>
 </mujoco>

@@ -4,6 +4,7 @@ Inspired from https://github.com/kscalelabs/mujoco_playground/blob/master/playgr
 """
 
 from pathlib import Path
+import math
 from abc import ABC
 import argparse
 import functools
@@ -84,7 +85,8 @@ class BaseRunner(ABC):
     def progress_callback(self, num_steps: int, metrics: dict) -> None:
         for metric_name, metric_value in metrics.items():
             # Convert to float, but watch out for 0-dim JAX arrays
-            self.writer.add_scalar(metric_name, metric_value, num_steps)
+            if math.isfinite(float(metric_value)):
+                self.writer.add_scalar(metric_name, metric_value, num_steps)
 
         reward = float(metrics.get("eval/episode_reward", float("-inf")))
         reward_std = float(metrics.get("eval/episode_reward_std", 0.0))
@@ -145,21 +147,24 @@ class BaseRunner(ABC):
         num_evals = getattr(self.args, "num_evals", None)
         if num_evals is not None:
             self.ppo_training_params["num_evals"] = num_evals
-        elif self.num_timesteps <= 1_000_000:
-            self.ppo_training_params["num_evals"] = 4
+        elif self.num_timesteps <= 2_000_000:
+            self.ppo_training_params["num_evals"] = 2
         elif self.num_timesteps <= 5_000_000:
-            self.ppo_training_params["num_evals"] = 6
+            self.ppo_training_params["num_evals"] = 3
         elif self.num_timesteps <= 20_000_000:
-            self.ppo_training_params["num_evals"] = 9
+            self.ppo_training_params["num_evals"] = 5
 
         # Prevent Welford normalizer std → 0 (0/0 = NaN in obs normalization)
         self.ppo_training_params["normalize_observations_std_eps"] = 1e-6
-        self.ppo_training_params["unroll_length"] = 40
-        self.ppo_training_params["num_minibatches"] = 16
+        self.ppo_training_params["unroll_length"] = 20
+        self.ppo_training_params["num_minibatches"] = 32
+        self.ppo_training_params["num_updates_per_batch"] = 8
         self.ppo_training_params["num_envs"] = 16384
         # Brax requires (batch_size * num_minibatches) % num_envs == 0
         num_envs = self.ppo_training_params["num_envs"]
         self.ppo_training_params["batch_size"] = num_envs // self.ppo_training_params["num_minibatches"]
+        self.ppo_training_params["learning_rate"] = getattr(self.args, "learning_rate", 0.0003)
+        self.ppo_training_params["entropy_cost"] = getattr(self.args, "entropy_cost", 0.005)
 
         print(f"PPO params: {self.ppo_training_params}")
 
